@@ -14,7 +14,7 @@ upstream source in [`build/web/app/`](build/web/app) builds with its own Dockerf
 
 ```bash
 isoloom generate
-isoloom up docker
+isoloom run docker
 ```
 
 Then call http://localhost:5000/api/products, register with `POST /api/registrations` and get
