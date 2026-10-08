@@ -1,0 +1,152 @@
+{
+  "generated_by_isoloom": "from isoloom.yml; don't edit: change the spec and run `isoloom generate` (`isoloom check` fails when this file is out of date)",
+  "resolved_version": 1,
+  "name": "dvcsharp-api",
+  "instance": null,
+  "inputs": [],
+  "networks": {
+    "lab": {
+      "cidr": "10.60.22.0/24",
+      "docker_cidr": "10.60.22.0/24",
+      "internet": false,
+      "gateway": null,
+      "gateway_address": "10.60.22.1",
+      "router": null,
+      "controller": "10.60.22.253"
+    }
+  },
+  "reach": [],
+  "machines": {
+    "api": {
+      "access": false,
+      "supplied": false,
+      "shapes": [
+        "docker"
+      ],
+      "arch": "amd64",
+      "os": null,
+      "windows": false,
+      "addresses": {
+        "lab": "10.60.22.10"
+      },
+      "docker_addresses": {
+        "lab": "10.60.22.10"
+      },
+      "services": [
+        {
+          "port": 5000,
+          "name": "api",
+          "http": true,
+          "publish": 5000
+        }
+      ],
+      "depends_on": [],
+      "inputs": [],
+      "volumes": {},
+      "resources": {
+        "cpus": 1,
+        "memory_mb": 1024,
+        "disk_gb": 20
+      },
+      "gateway_of": [],
+      "routes": [],
+      "default_gateway": null,
+      "offline": true
+    }
+  },
+  "start_order": [
+    "api"
+  ],
+  "clones": {},
+  "tools": {},
+  "groups": {},
+  "router": null,
+  "controller": {
+    "addresses": {
+      "lab": "10.60.22.253"
+    }
+  },
+  "published": [
+    {
+      "machine": "api",
+      "port": 5000,
+      "host_port": 5000
+    }
+  ],
+  "targets": {
+    "possible": [
+      "docker",
+      "hosted",
+      "docker-vm",
+      "cloud-docker",
+      "kubernetes"
+    ],
+    "generated": [
+      "docker",
+      "hosted",
+      "docker-vm",
+      "cloud-docker",
+      "kubernetes"
+    ],
+    "refused": {},
+    "not_possible": {
+      "hybrid": "only when some machines are containers and others are VMs",
+      "vagrant": "needs `vm:` on api",
+      "proxmox": "needs `vm:` on api",
+      "cloud-vm": "needs `vm:` on api",
+      "external": "needs `external:` on api"
+    }
+  },
+  "checks": {
+    "default_position": "networks",
+    "positions": [
+      {
+        "position": "networks",
+        "machine": null,
+        "runner": "isoloom-check",
+        "checks": [
+          {
+            "name": "the product API answers",
+            "derived": false,
+            "kind": "http",
+            "target": "http://api:5000/api/products",
+            "expect": "200",
+            "wait": 300
+          },
+          {
+            "name": "a new user registers and gets a token",
+            "derived": false,
+            "kind": "script",
+            "target": "checks/register-token.sh",
+            "expect": "",
+            "wait": 0
+          },
+          {
+            "name": "the product search is injectable",
+            "derived": false,
+            "kind": "script",
+            "target": "checks/sqli-search.sh",
+            "expect": "",
+            "wait": 0
+          }
+        ]
+      },
+      {
+        "position": "api",
+        "machine": "api",
+        "runner": "isoloom-check-api",
+        "checks": [
+          {
+            "name": "no internet from api",
+            "derived": true,
+            "kind": "http",
+            "target": "http://1.1.1.1/",
+            "expect": "blocked",
+            "wait": 0
+          }
+        ]
+      }
+    ]
+  },
+  "message": "The DVCSharp API answers at http://localhost:5000/api/.\nRegister with POST /api/registrations, get a token from POST /api/authorizations, then work\nthrough the endpoints; upstream's Postman collection lists them all.\n"
+}

@@ -1,0 +1,9 @@
+{
+  "title": "Damn Vulnerable C# API",
+  "description": "A deliberately vulnerable REST API written in C# with ASP.NET Core and Entity Framework Core: SSO cookie authentication bypass, insecure JWT usage, weak password reset, SSRF, privilege escalation, insecure deserialization, XXE and SQL injection.",
+  "question": "Exploit the API flaws to escalate from a registered user to an administrator.",
+  "category": "WEB",
+  "difficulty": 3,
+  "evidence_kind": "SECRET",
+  "capabilities": ["api-security", "jwt-attacks", "sql-injection", "server-side-request-forgery", "insecure-deserialization", "privilege-escalation"]
+}
