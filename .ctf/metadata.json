@@ -4,6 +4,5 @@
   "question": "Exploit the API flaws to escalate from a registered user to an administrator.",
   "category": "WEB",
   "difficulty": 3,
-  "evidence_kind": "SECRET",
-  "capabilities": ["api-security", "jwt-attacks", "sql-injection", "server-side-request-forgery", "insecure-deserialization", "privilege-escalation"]
+  "evidence_kind": "SECRET"
 }
